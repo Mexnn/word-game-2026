@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Master 2026 | Thai & Eng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="setup-screen" class="card">
+            <h1>🎮 Word Master 2026</h1>
+            <input type="text" id="playerName" placeholder="ใส่ชื่อของคุณที่นี่...">
+            <div class="mode-selection">
+                <button onclick="startGame('TH')">🇹🇭 หมวดภาษาไทย</button>
+                <button onclick="startGame('EN')">🇺🇸 English Mode</button>
+            </div>
+        </div>
+
+        <div id="game-screen" class="card hidden">
+            <h2 id="category-title">กำลังเล่น...</h2>
+            <div class="stats">
+                <span>คะแนน: <b id="score">0</b></span>
+            </div>
+            <div class="game-box">
+                <p id="hint-text">คำใบ้จะปรากฏที่นี่...</p>
+                <input type="text" id="guessInput" placeholder="พิมพ์คำตอบ...">
+                <button onclick="submitGuess()" id="submit-btn">ส่งคำตอบ</button>
+            </div>
+            <p id="feedback"></p>
+        </div>
+
+        <div class="card leaderboard">
+            <h3>🏆 อันดับผู้เล่นสูงสุด</h3>
+            <table id="leaderboardTable">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>คะแนน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

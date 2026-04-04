@@ -1,0 +1,9 @@
+{
+  "name": "word-master-2026",
+  "version": "1.0.0",
+  "description": "เกมทายคำ Node.js ส่งงานอาจารย์",
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.0.0"
+  }
+}
