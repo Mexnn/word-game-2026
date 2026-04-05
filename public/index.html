@@ -25,7 +25,10 @@
             <div class="game-box">
                 <p id="hint-text">คำใบ้จะปรากฏที่นี่...</p>
                 <input type="text" id="guessInput" placeholder="พิมพ์คำตอบ...">
-                <button onclick="submitGuess()" id="submit-btn">ส่งคำตอบ</button>
+                <div class="button-group">
+                    <button onclick="submitGuess()" id="submit-btn">ส่งคำตอบ</button>
+                    <button onclick="giveUp()" id="giveup-btn">🏳️ ยอมแพ้</button>
+                </div>
             </div>
             <p id="feedback"></p>
         </div>
@@ -40,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
