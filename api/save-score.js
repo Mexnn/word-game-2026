@@ -1,31 +1,25 @@
-// ใช้ Node.js Native Fetch ส่งข้อมูลผ่าน REST API (ไม่ต้องพึ่งกุญแจลับ)
+// api/save-score.js (เวอร์ชันแก้ปัญหา Error 500 แบบเด็ดขาด)
 export default async function handler(req, res) {
-    // 1. ตั้งค่าอนุญาตให้หน้าเว็บคุยกับหลังบ้านได้ (CORS)
+    // ตั้งค่าหัวข้อเพื่อให้หน้าเว็บส่งข้อมูลมาได้ (CORS)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // ตอบกลับ OPTIONS ทันทีเพื่อให้ CORS ผ่าน
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
     if (req.method === 'POST') {
         try {
-            // 2. รับข้อมูลที่ส่งมาจากหน้าเว็บ
-            const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-            const { name, score } = body;
-
-            if (!name) {
-                return res.status(400).json({ error: "กรุณาส่งชื่อมาด้วยครับ" });
-            }
-
-            // 3. ใช้ Node.js ส่งข้อมูลเข้า Firebase โดยตรง (ใช้ Project ID ของคุณ)
+            const { name, score } = req.body;
             const projectId = "wordgame-f3486";
-            const firebaseUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/leaderboard/${name}`;
+
+            // ยิงข้อมูลเข้า Firebase ผ่านทางช่องทางพิเศษ (REST API)
+            // วิธีนี้จะใช้ชื่อผู้เล่น (name) เป็นชื่อเอกสารใน Database เลย
+            const firebaseUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/leaderboard/${name}?updateMask.fieldPaths=name&updateMask.fieldPaths=score`;
 
             const firestoreResponse = await fetch(firebaseUrl, {
-                method: 'PATCH', // PATCH จะสร้างข้อมูลใหม่ถ้ายังไม่มี หรืออัปเดตถ้ามีอยู่แล้ว
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     fields: {
@@ -36,18 +30,17 @@ export default async function handler(req, res) {
             });
 
             if (!firestoreResponse.ok) {
-                const errorData = await firestoreResponse.json();
-                throw new Error("Firebase API Error: " + JSON.stringify(errorData));
+                const errorText = await firestoreResponse.text();
+                throw new Error("Firebase Error: " + errorText);
             }
 
-            // 4. ส่งข้อความกลับไปหาหน้าเว็บว่าสำเร็จแล้ว!
-            return res.status(200).json({ message: 'บันทึกคะแนนผ่าน Node.js สำเร็จ!' });
+            return res.status(200).json({ message: 'บันทึกคะแนนเรียบร้อยแล้ว!' });
 
         } catch (error) {
-            console.error("Node.js Error:", error.message);
+            console.error("Backend Error:", error.message);
             return res.status(500).json({ error: error.message });
         }
     } else {
-        return res.status(405).json({ error: "ต้องใช้ Method POST เท่านั้นครับ" });
+        return res.status(405).json({ error: "Method Not Allowed" });
     }
 }
