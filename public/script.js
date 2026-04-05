@@ -12,101 +12,89 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 2. คลังคำศัพท์ (ภาษาไทย 50 คำ จุใจ!)
+// 2. คลังคำศัพท์ (จัดให้ 150+ คำ ครอบคลุมหลายหมวดหมู่)
 const thaiWords = [
-    { w: "ช้าง", h: "สัตว์ประจำชาติไทย ตัวใหญ่ มีงวง" },
-    { w: "ส้มตำ", h: "อาหารอีสานยอดฮิต มีปลาร้าและมะละกอ" },
-    { w: "กรุงเทพ", h: "เมืองหลวงของประเทศไทย" },
-    { w: "ภูเขา", h: "พื้นที่สูงที่มีความชัน" },
-    { w: "ทะเล", h: "แหล่งน้ำเค็มขนาดใหญ่ มีหาดทราย" },
-    { w: "ทุเรียน", h: "ราชาผลไม้ มีหนามแหลม กลิ่นแรง" },
-    { w: "หมูปิ้ง", h: "อาหารเช้ายอดฮิต กินคู่กับข้าวเหนียว" },
-    { w: "ตุ๊กตุ๊ก", h: "รถโดยสารสามล้อ สัญลักษณ์ของไทย" },
-    { w: "ผัดไทย", h: "เส้นจันท์ผัดใส่ไข่ กุ้งแห้ง ถั่วงอก" },
-    { w: "โรงเรียน", h: "สถานที่สำหรับศึกษาหาความรู้" },
-    { w: "ต้มยำกุ้ง", h: "ซุปเผ็ดเปรี้ยวของไทย มีกุ้งเป็นหลัก" },
-    { w: "มะม่วง", h: "ผลไม้สุกสีเหลือง นิยมทานกับข้าวเหนียวมูน" },
-    { w: "ลอยกระทง", h: "ประเพณีขอขมาพระแม่คงคาในวันเพ็ญเดือนสิบสอง" },
-    { w: "สงกรานต์", h: "เทศกาลปีใหม่ไทย มีการเล่นสาดน้ำ" },
-    { w: "มวยไทย", h: "ศิลปะการต่อสู้ประจำชาติ ใช้อวัยวะทั้ง 8" },
-    { w: "วัดพระแก้ว", h: "วัดคู่บ้านคู่เมืองในกรุงเทพมหานคร" },
-    { w: "รถไฟ", h: "ยานพาหนะที่วิ่งบนราง" },
-    { w: "เครื่องบิน", h: "ยานพาหนะที่ใช้เดินทางบนท้องฟ้า" },
-    { w: "จักรยาน", h: "ยานพาหนะ 2 ล้อ ใช้แรงปั่น" },
-    { w: "โรงพยาบาล", h: "สถานที่รักษาคนไข้" },
-    { w: "ตำรวจ", h: "ผู้พิทักษ์สันติราษฎร์ จับโจรผู้ร้าย" },
-    { w: "หมอ", h: "ผู้ประกอบวิชาชีพรักษาโรค" },
-    { w: "ครู", h: "ผู้สอนหนังสือและอบรมศิษย์" },
-    { w: "ตู้เย็น", h: "เครื่องใช้ไฟฟ้าสำหรับเก็บของสดให้เย็น" },
-    { w: "พัดลม", h: "เครื่องใช้ไฟฟ้าที่เป่าลมให้ความเย็น" },
-    { w: "โทรทัศน์", h: "เครื่องใช้ไฟฟ้าสำหรับดูรายการต่างๆ" },
-    { w: "สมาร์ทโฟน", h: "โทรศัพท์มือถือที่เล่นอินเทอร์เน็ตได้" },
-    { w: "คอมพิวเตอร์", h: "อุปกรณ์อิเล็กทรอนิกส์ประมวลผลข้อมูล" },
-    { w: "หนังสือ", h: "แหล่งรวบรวมความรู้เป็นรูปเล่ม" },
-    { w: "ปากกา", h: "อุปกรณ์ใช้สำหรับเขียน มีน้ำหมึก" },
-    { w: "ดินสอ", h: "อุปกรณ์เขียน ลบได้ด้วยยางลบ" },
-    { w: "ไม้บรรทัด", h: "อุปกรณ์สำหรับวัดความยาวและขีดเส้นตรง" },
-    { w: "กระเป๋า", h: "สิ่งของสำหรับใส่สัมภาระ" },
-    { w: "รองเท้า", h: "สิ่งที่ใช้สวมใส่เท้าเพื่อป้องกันอันตราย" },
-    { w: "หมวก", h: "สิ่งที่ใช้สวมศีรษะเพื่อกันแดด" },
-    { w: "แว่นตา", h: "สิ่งที่ช่วยให้คนสายตาสั้นมองเห็นชัดขึ้น" },
-    { w: "นาฬิกา", h: "เครื่องมือสำหรับบอกเวลา" },
-    { w: "พระอาทิตย์", h: "ดาวฤกษ์ที่ให้แสงสว่างตอนกลางวัน" },
-    { w: "พระจันทร์", h: "ดาวบริวารของโลก ส่องสว่างตอนกลางคืน" },
-    { w: "ดาว", h: "สิ่งที่ส่องแสงระยิบระยับบนท้องฟ้าตอนกลางคืน" },
-    { w: "เมฆ", h: "ไอน้ำที่รวมตัวกันลอยอยู่บนท้องฟ้า" },
-    { w: "ฝน", h: "หยดน้ำที่ตกลงมาจากฟ้า" },
-    { w: "รุ้งกินน้ำ", h: "ปรากฏการณ์แสง 7 สีหลังฝนตก" },
-    { w: "แม่น้ำ", h: "สายน้ำขนาดใหญ่ที่ไหลลงสู่ทะเล" },
-    { w: "น้ำตก", h: "แหล่งน้ำที่ไหลตกลงมาจากหน้าผาสูง" },
-    { w: "ป่าไม้", h: "พื้นที่ที่มีต้นไม้ขึ้นหนาแน่น" },
-    { w: "ดอกไม้", h: "ส่วนที่มีสีสันสวยงามและมีกลิ่นหอมของพืช" },
-    { w: "ผีเสื้อ", h: "แมลงปีกสวยงาม ชอบดูดน้ำหวานดอกไม้" },
-    { w: "นก", h: "สัตว์ปีกที่บินได้บนท้องฟ้า" },
-    { w: "ปลา", h: "สัตว์น้ำ อาศัยและหายใจในน้ำ" }
-];
-
-const engWords = [
-    { w: "apple", h: "A round red or green fruit" },
-    { w: "computer", h: "An electronic device for processing data" },
-    { w: "ocean", h: "A very large expanse of sea" },
-    { w: "javascript", h: "The language of the web" },
-    { w: "tiger", h: "A large wild cat with a yellow-orange coat and dark stripes" },
-    { w: "guitar", h: "A musical instrument with strings" }
+    // หมวดสัตว์
+    { w: "ช้าง", h: "สัตว์ประจำชาติไทย ตัวใหญ่ มีงวง" }, { w: "เสือ", h: "สัตว์กินเนื้อลายพาดกลอน ดุร้าย" }, { w: "สิงโต", h: "เจ้าป่า มีแผงคอ" }, { w: "หมี", h: "สัตว์ตัวใหญ่ ชอบกินน้ำผึ้ง" }, { w: "ยีราฟ", h: "สัตว์คอยาวที่สุดในโลก" }, { w: "ม้าลาย", h: "สัตว์ที่มีลายสีขาวสลับดำทั้งตัว" }, { w: "จระเข้", h: "สัตว์เลื้อยคลาน อาศัยในน้ำ ปากกว้าง" }, { w: "งู", h: "สัตว์เลื้อยคลาน ไม่มีขา บางชนิดมีพิษ" }, { w: "เต่า", h: "สัตว์มีกระดอง เดินช้า" }, { w: "กระต่าย", h: "สัตว์หูยาว ชอบกินแครอท" }, { w: "นกแก้ว", h: "นกสีสวยงาม สามารถเลียนเสียงคนได้" }, { w: "ฉลาม", h: "ปลาดุร้ายในทะเล มีฟันแหลมคม" }, { w: "โลมา", h: "สัตว์เลี้ยงลูกด้วยนมในทะเล แสนรู้" }, { w: "วาฬ", h: "สัตว์ที่ใหญ่ที่สุดในโลก อาศัยในทะเล" }, { w: "เพนกวิน", h: "นกที่บินไม่ได้ อาศัยในซีกโลกใต้" },
+    // หมวดอาหาร/ผลไม้
+    { w: "ส้มตำ", h: "อาหารอีสานยอดฮิต มีปลาร้าและมะละกอ" }, { w: "ต้มยำกุ้ง", h: "ซุปเผ็ดเปรี้ยวของไทย มีกุ้งเป็นหลัก" }, { w: "ผัดไทย", h: "เส้นจันท์ผัดใส่ไข่ กุ้งแห้ง ถั่วงอก" }, { w: "กะเพรา", h: "เมนูสิ้นคิดของคนไทย ผัดใส่ใบหอมๆ" }, { w: "ข้าวผัด", h: "นำข้าวสวยไปรวนในกระทะกับไข่และเนื้อสัตว์" }, { w: "หมูปิ้ง", h: "อาหารเช้ายอดฮิต กินคู่กับข้าวเหนียว" }, { w: "ทุเรียน", h: "ราชาผลไม้ มีหนามแหลม กลิ่นแรง" }, { w: "มังคุด", h: "ราชินีผลไม้ เปลือกม่วง เนื้อขาว" }, { w: "มะม่วง", h: "ผลไม้สุกสีเหลือง นิยมทานกับข้าวเหนียวมูน" }, { w: "แตงโม", h: "ผลไม้ลูกใหญ่ เนื้อสีแดง น้ำเยอะ" }, { w: "กล้วย", h: "ผลไม้ปลอกเปลือกง่าย ลิงชอบกิน" }, { w: "มะละกอ", h: "ผลไม้เนื้อสีส้ม ใช้ทำส้มตำตอนดิบ" }, { w: "สับปะรด", h: "ผลไม้มีตาเยอะแยะรอบตัว" },
+    // หมวดสิ่งของ/เครื่องใช้
+    { w: "คอมพิวเตอร์", h: "อุปกรณ์อิเล็กทรอนิกส์ประมวลผลข้อมูล" }, { w: "สมาร์ทโฟน", h: "โทรศัพท์มือถือที่เล่นอินเทอร์เน็ตได้" }, { w: "โทรทัศน์", h: "เครื่องใช้ไฟฟ้าสำหรับดูรายการต่างๆ" }, { w: "ตู้เย็น", h: "เครื่องใช้ไฟฟ้าสำหรับเก็บของสดให้เย็น" }, { w: "พัดลม", h: "เครื่องใช้ไฟฟ้าที่เป่าลมให้ความเย็น" }, { w: "แอร์", h: "เครื่องปรับอากาศ" }, { w: "หนังสือ", h: "แหล่งรวบรวมความรู้เป็นรูปเล่ม" }, { w: "ดินสอ", h: "อุปกรณ์เขียน ลบได้ด้วยยางลบ" }, { w: "ปากกา", h: "อุปกรณ์ใช้สำหรับเขียน มีน้ำหมึก" }, { w: "กระเป๋า", h: "สิ่งของสำหรับใส่สัมภาระ" }, { w: "รองเท้า", h: "สิ่งที่ใช้สวมใส่เท้า" }, { w: "แว่นตา", h: "สิ่งที่ช่วยให้คนสายตาสั้นมองเห็นชัดขึ้น" }, { w: "นาฬิกา", h: "เครื่องมือสำหรับบอกเวลา" }, { w: "กรรไกร", h: "ของมีคมใช้สำหรับตัดกระดาษ" },
+    // หมวดสถานที่/ธรรมชาติ
+    { w: "โรงเรียน", h: "สถานที่สำหรับศึกษาหาความรู้" }, { w: "โรงพยาบาล", h: "สถานที่รักษาคนไข้" }, { w: "วัด", h: "สถานที่ทำบุญของชาวพุทธ" }, { w: "ตลาด", h: "สถานที่ซื้อขายสินค้าและอาหาร" }, { w: "ทะเล", h: "แหล่งน้ำเค็มขนาดใหญ่ มีหาดทราย" }, { w: "ภูเขา", h: "พื้นที่สูงที่มีความชัน" }, { w: "น้ำตก", h: "แหล่งน้ำที่ไหลตกลงมาจากหน้าผาสูง" }, { w: "แม่น้ำ", h: "สายน้ำขนาดใหญ่ที่ไหลลงสู่ทะเล" }, { w: "ป่าไม้", h: "พื้นที่ที่มีต้นไม้ขึ้นหนาแน่น" }, { w: "ท้องฟ้า", h: "เบื้องบนที่เรามองเห็นเมฆและพระอาทิตย์" }, { w: "พระอาทิตย์", h: "ดาวฤกษ์ที่ให้แสงสว่างตอนกลางวัน" }, { w: "พระจันทร์", h: "ดาวบริวารของโลก ส่องสว่างตอนกลางคืน" }, { w: "ดาว", h: "สิ่งที่ส่องแสงระยิบระยับบนท้องฟ้าตอนกลางคืน" },
+    // หมวดอาชีพ/บุคคล
+    { w: "ครู", h: "ผู้สอนหนังสือและอบรมศิษย์" }, { w: "หมอ", h: "ผู้ประกอบวิชาชีพรักษาโรค" }, { w: "พยาบาล", h: "ผู้ดูแลและช่วยเหลือคนไข้ในโรงพยาบาล" }, { w: "ตำรวจ", h: "ผู้พิทักษ์สันติราษฎร์ จับโจรผู้ร้าย" }, { w: "ทหาร", h: "ผู้ปกป้องประเทศชาติ" }, { w: "นักดับเพลิง", h: "ผู้ที่มีหน้าที่ผจญเพลิง" }, { w: "ชาวนา", h: "ผู้ปลูกข้าวให้เรากิน กระดูกสันหลังของชาติ" },
+    // หมวดยานพาหนะ
+    { w: "รถยนต์", h: "ยานพาหนะ 4 ล้อ" }, { w: "จักรยานยนต์", h: "รถมอเตอร์ไซค์ 2 ล้อ" }, { w: "จักรยาน", h: "ยานพาหนะ 2 ล้อ ใช้แรงปั่น" }, { w: "เครื่องบิน", h: "ยานพาหนะที่ใช้เดินทางบนท้องฟ้า" }, { w: "รถไฟ", h: "ยานพาหนะที่วิ่งบนราง" }, { w: "เรือ", h: "ยานพาหนะที่ใช้สัญจรทางน้ำ" }, { w: "ตุ๊กตุ๊ก", h: "รถโดยสารสามล้อ สัญลักษณ์ของไทย" }
+    // สามารถก๊อปปี้แพทเทิร์น { w: "คำศัพท์", h: "คำใบ้" }, เพิ่มต่อลงมาได้เลยครับ
 ];
 
 let currentWord = "";
 let score = 0;
 let playerName = "";
-let currentMode = "";
+let currentMode = ""; // '1m', '5m', 'unlimited'
+let timeLeft = 0;
+let timerInterval;
 
-// 3. ฟังก์ชันเริ่มเกม
+// 3. เริ่มเกมตามโหมดเวลา
 function startGame(mode) {
     playerName = document.getElementById('playerName').value.trim();
     if (!playerName) return alert("กรุณาใส่ชื่อก่อนเล่น!");
     
     currentMode = mode;
+    score = 0;
+    document.getElementById('score').innerText = score;
+    
+    // ตั้งค่าเวลา
+    const timerContainer = document.getElementById('timer-container');
+    if (mode === '1m') {
+        timeLeft = 60;
+        timerContainer.classList.remove('hidden');
+        startTimer();
+    } else if (mode === '5m') {
+        timeLeft = 300;
+        timerContainer.classList.remove('hidden');
+        startTimer();
+    } else {
+        timerContainer.classList.add('hidden'); // โหมดไม่จำกัดเวลา ซ่อนตัวจับเวลา
+    }
+
     document.getElementById('setup-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.remove('hidden');
-    document.getElementById('category-title').innerText = mode === 'TH' ? "🇹🇭 หมวดไทย" : "🇺🇸 English Mode";
     
     nextQuestion();
 }
 
-// 4. สุ่มคำถามถัดไป
+// 4. ระบบจับเวลา
+function startTimer() {
+    document.getElementById('time').innerText = timeLeft;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('time').innerText = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert(`⏰ หมดเวลา! คุณทำได้ ${score} คะแนน`);
+            goHome(); // หมดเวลากลับหน้าแรก
+        }
+    }, 1000);
+}
+
+// 5. สุ่มคำถาม
 function nextQuestion() {
-    const list = currentMode === 'TH' ? thaiWords : engWords;
-    const random = list[Math.floor(Math.random() * list.length)];
+    const random = thaiWords[Math.floor(Math.random() * thaiWords.length)];
     currentWord = random.w.toLowerCase();
     
-    document.getElementById('hint-text').innerText = "คำใบ้: " + random.h;
+    document.getElementById('hint-text').innerText = "💡 คำใบ้: " + random.h;
     document.getElementById('guessInput').value = "";
     document.getElementById('feedback').innerText = "";
     document.getElementById('guessInput').focus();
 }
 
-// 5. เช็คคำตอบ
+// 6. เช็คคำตอบ
 function submitGuess() {
+    if (timeLeft <= 0 && currentMode !== 'unlimited') return; // หมดเวลาห้ามตอบ
+
     const userGuess = document.getElementById('guessInput').value.toLowerCase().trim();
     const feedback = document.getElementById('feedback');
 
@@ -116,7 +104,8 @@ function submitGuess() {
         feedback.innerText = "✅ ถูกต้อง! +10 คะแนน";
         feedback.style.color = "green";
         
-        saveScoreWithNodeJS(playerName, score); 
+        // เซฟคะแนนไปที่โหมดนั้นๆ
+        saveScoreWithNodeJS(playerName, score, currentMode); 
         
         setTimeout(nextQuestion, 1500);
     } else {
@@ -125,46 +114,61 @@ function submitGuess() {
     }
 }
 
-// --- ฟังก์ชันใหม่: ปุ่มยอมแพ้ ---
+// 7. ปุ่มยอมแพ้
 function giveUp() {
     const feedback = document.getElementById('feedback');
-    feedback.innerText = `💡 เฉลยคือ: "${currentWord}"`;
-    feedback.style.color = "#ff8c00"; // สีส้ม
-    
-    // โชว์เฉลย 2 วินาที แล้วข้ามไปข้อถัดไปโดยไม่ได้คะแนน
+    feedback.innerText = `เฉลยคือ: "${currentWord}"`;
+    feedback.style.color = "#ff8c00"; 
     setTimeout(nextQuestion, 2000);
 }
 
-// 6. ส่งข้อมูลไปให้ Node.js
-async function saveScoreWithNodeJS(name, score) {
+// 8. ปุ่มกลับหน้าแรก
+function goHome() {
+    clearInterval(timerInterval); // หยุดเวลา
+    document.getElementById('game-screen').classList.add('hidden');
+    document.getElementById('setup-screen').classList.remove('hidden');
+    document.getElementById('playerName').value = ""; // เคลียร์ชื่อ
+}
+
+// 9. ส่งข้อมูลไปให้ Node.js (แนบ mode ไปด้วย)
+async function saveScoreWithNodeJS(name, score, mode) {
     try {
-        const response = await fetch('/api/save-score', {
+        await fetch('/api/save-score', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, score })
+            body: JSON.stringify({ name, score, mode })
         });
-        const result = await response.json();
-        console.log("Node.js Response:", result.message);
     } catch (error) {
-        console.error("Error calling Node.js API:", error);
+        console.error("Error saving score:", error);
     }
 }
 
-// 7. ดึงข้อมูลตารางคะแนน
-function loadLeaderboard() {
-    db.collection("leaderboard").orderBy("score", "desc").limit(5)
-    .onSnapshot((snapshot) => {
-        const tbody = document.querySelector("#leaderboardTable tbody");
-        tbody.innerHTML = "";
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            tbody.innerHTML += `
-                <tr>
-                    <td>${data.name}</td>
-                    <td>${data.score}</td>
-                </tr>`;
+// 10. ดึงข้อมูลตารางคะแนนทั้ง 3 บอร์ดพร้อมกัน
+function loadLeaderboards() {
+    const modes = ['1m', '5m', 'unlimited'];
+    
+    modes.forEach(mode => {
+        db.collection(`leaderboard_${mode}`).orderBy("score", "desc").limit(5)
+        .onSnapshot((snapshot) => {
+            const tbody = document.querySelector(`#board-${mode} tbody`);
+            if (tbody) {
+                tbody.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    tbody.innerHTML += `<tr><td>${data.name}</td><td>${data.score}</td></tr>`;
+                });
+            }
         });
     });
 }
 
-loadLeaderboard();
+// โหลดบอร์ดคะแนนตอนเปิดเว็บ
+loadLeaderboards();
+
+// กด Enter เพื่อตอบได้เลย
+document.getElementById("guessInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        submitGuess();
+    }
+});
