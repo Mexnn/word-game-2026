@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Master 2026 | Thai & Eng</title>
+    <title>Word Master 2026 | Thai Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
             <h1>🎮 Word Master 2026</h1>
+            <p>หมวดคำศัพท์ภาษาไทย</p>
             <input type="text" id="playerName" placeholder="ใส่ชื่อของคุณที่นี่...">
-            <div class="mode-selection">
-                <button onclick="startGame('TH')">🇹🇭 หมวดภาษาไทย</button>
-                <button onclick="startGame('EN')">🇺🇸 English Mode</button>
+            
+            <div class="time-selection">
+                <h3>เลือกระยะเวลา:</h3>
+                <button onclick="startGame('1m')">⏱️ 1 นาที</button>
+                <button onclick="startGame('5m')">⏱️ 5 นาที</button>
+                <button onclick="startGame('unlimited')">♾️ ไม่จำกัดเวลา</button>
             </div>
         </div>
 
         <div id="game-screen" class="card hidden">
-            <h2 id="category-title">กำลังเล่น...</h2>
+            <button onclick="goHome()" id="home-btn">🏠 กลับหน้าแรก</button>
+            <h2 id="category-title">ทายคำศัพท์ภาษาไทย</h2>
+            
             <div class="stats">
                 <span>คะแนน: <b id="score">0</b></span>
+                <span id="timer-container" class="hidden">เวลา: <b id="time">0</b> วิ</span>
             </div>
+            
             <div class="game-box">
                 <p id="hint-text">คำใบ้จะปรากฏที่นี่...</p>
                 <input type="text" id="guessInput" placeholder="พิมพ์คำตอบ...">
@@ -34,17 +42,30 @@
         </div>
 
         <div class="card leaderboard">
-            <h3>🏆 อันดับผู้เล่นสูงสุด</h3>
-            <table id="leaderboardTable">
-                <thead>
-                    <tr>
-                        <th>ชื่อ</th>
-                        <th>คะแนน</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <h3>🏆 อันดับผู้เล่นสูงสุด (แยกตามโหมด)</h3>
+            <div class="boards-grid">
+                <div class="board-column">
+                    <h4>⏱️ 1 นาที</h4>
+                    <table id="board-1m">
+                        <thead><tr><th>ชื่อ</th><th>คะแนน</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="board-column">
+                    <h4>⏱️ 5 นาที</h4>
+                    <table id="board-5m">
+                        <thead><tr><th>ชื่อ</th><th>คะแนน</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="board-column">
+                    <h4>♾️ ไม่จำกัด</h4>
+                    <table id="board-unlimited">
+                        <thead><tr><th>ชื่อ</th><th>คะแนน</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
