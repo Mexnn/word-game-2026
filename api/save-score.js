@@ -1,22 +1,21 @@
-// api/save-score.js (เวอร์ชันแก้ปัญหา Error 500 แบบเด็ดขาด)
+// api/save-score.js
 export default async function handler(req, res) {
-    // ตั้งค่าหัวข้อเพื่อให้หน้าเว็บส่งข้อมูลมาได้ (CORS)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+    if (req.method === 'OPTIONS') return res.status(200).end();
 
     if (req.method === 'POST') {
         try {
-            const { name, score } = req.body;
+            const { name, score, mode } = req.body; // รับตัวแปร mode เพิ่มเข้ามา
             const projectId = "wordgame-f3486";
+            
+            // แยกชื่อตารางคะแนนตามโหมด เช่น leaderboard_1m, leaderboard_5m, leaderboard_unlimited
+            const collectionName = `leaderboard_${mode}`;
 
-            // ยิงข้อมูลเข้า Firebase ผ่านทางช่องทางพิเศษ (REST API)
-            // วิธีนี้จะใช้ชื่อผู้เล่น (name) เป็นชื่อเอกสารใน Database เลย
-            const firebaseUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/leaderboard/${name}?updateMask.fieldPaths=name&updateMask.fieldPaths=score`;
+            // ยิงข้อมูลเข้า Firebase ผ่าน REST API
+            const firebaseUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collectionName}/${name}?updateMask.fieldPaths=name&updateMask.fieldPaths=score`;
 
             const firestoreResponse = await fetch(firebaseUrl, {
                 method: 'PATCH',
