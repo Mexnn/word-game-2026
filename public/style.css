@@ -1,19 +1,26 @@
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; display: flex; justify-content: center; padding: 20px; }
-.container { width: 100%; max-width: 500px; }
-.card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; }
-.hidden { display: none; }
+.container { width: 100%; max-width: 650px; } /* ขยายความกว้างให้พอดี 3 บอร์ด */
+.card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; position: relative; }
+.hidden { display: none !important; }
 input { width: 80%; padding: 12px; margin: 15px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
 
-/* จัดกลุ่มปุ่มให้อยู่บรรทัดเดียวกัน */
+/* ปุ่มต่างๆ */
 .button-group { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-
-button { background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+button { background: #007bff; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; margin: 5px; }
 button:hover { background: #0056b3; transform: scale(1.05); }
-
-/* สไตล์เฉพาะสำหรับปุ่มยอมแพ้ */
 #giveup-btn { background: #dc3545; }
 #giveup-btn:hover { background: #c82333; }
+#home-btn { background: #6c757d; position: absolute; top: 15px; left: 15px; padding: 8px 15px; font-size: 14px; }
+#home-btn:hover { background: #5a6268; }
 
-.leaderboard table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.leaderboard th, td { border-bottom: 1px solid #eee; padding: 10px; }
+/* ส่วนแสดงสถานะ (คะแนน / เวลา) */
+.stats { display: flex; justify-content: space-around; font-size: 18px; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 8px; }
+#time { color: #dc3545; }
+
+/* ตารางคะแนน 3 คอลัมน์ */
+.boards-grid { display: flex; justify-content: space-between; gap: 10px; }
+.board-column { flex: 1; background: #f8f9fa; padding: 10px; border-radius: 8px; }
+.board-column h4 { margin-top: 0; color: #333; font-size: 14px; }
+.leaderboard table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.leaderboard th, td { border-bottom: 1px solid #ddd; padding: 6px 2px; text-align: center; }
 #feedback { font-weight: bold; margin-top: 15px; font-size: 18px;}
