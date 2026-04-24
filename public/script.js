@@ -84,7 +84,7 @@ function nextQuestion() {
     const random = thaiWords[Math.floor(Math.random() * thaiWords.length)];
     currentWord = random.w.toLowerCase();
     
-    document.getElementById('hint-text').innerText = "💡 คำใบ้: " + random.h;
+    document.getElementById('hint-text').innerText = "💡 โจทย์: " + random.h;
     document.getElementById('guessInput').value = "";
     document.getElementById('feedback').innerText = "";
     document.getElementById('guessInput').focus();
