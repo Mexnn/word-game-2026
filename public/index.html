@@ -3,63 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Master 2026 | Thai Edition</title>
+    <title>Word Master 2026 | Dark Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
-            <h1>🎮 เกมตอบคำถาม</h1>
-            <p>หมวดคำศัพท์ภาษาไทย</p>
-            <input type="text" id="playerName" placeholder="ใส่ชื่อของคุณที่นี่...">
+            <h1>🔥 WORD MASTER 2026</h1>
+            <p>สมรภูมิทายคำศัพท์ | ท้าทายความเร็ว</p>
+            <input type="text" id="playerName" placeholder="กรอกชื่อผู้ท้าชิงที่นี่...">
             
             <div class="time-selection">
-                <h3>เลือกระยะเวลา:</h3>
-                <button onclick="startGame('1m')">⏱️ 1 นาที</button>
-                <button onclick="startGame('5m')">⏱️ 5 นาที</button>
-                <button onclick="startGame('unlimited')">♾️ ไม่จำกัดเวลา</button>
+                <h3>เลือกระดับความเดือด:</h3>
+                <button onclick="startGame('1m')">⚡ 1 นาที (โหมดด่วน)</button>
+                <button onclick="startGame('5m')">🔥 5 นาที (โหมดเดือด)</button>
+                <button onclick="startGame('unlimited')">💀 ไม่จำกัด (โหมดเอาตาย)</button>
             </div>
         </div>
 
         <div id="game-screen" class="card hidden">
-            <button onclick="goHome()" id="home-btn">🏠 กลับหน้าแรก</button>
-            <h2 id="category-title">ทายคำศัพท์ภาษาไทย</h2>
+            <button onclick="goHome()" id="home-btn">◀ ถอยทัพกลับ</button>
+            <h2 id="category-title">🎯 ทายคำศัพท์ให้ถูกต้อง</h2>
             
             <div class="stats">
                 <span>คะแนน: <b id="score">0</b></span>
-                <span id="timer-container" class="hidden">เวลา: <b id="time">0</b> วิ</span>
+                <span id="timer-container" class="hidden">เวลาเหลือ: <b id="time">0</b> วิ</span>
             </div>
             
             <div class="game-box">
                 <p id="hint-text">โจทย์จะปรากฏที่นี่...</p>
-                <input type="text" id="guessInput" placeholder="พิมพ์คำตอบ...">
+                <input type="text" id="guessInput" placeholder="พิมพ์คำตอบของคุณ...">
                 <div class="button-group">
-                    <button onclick="submitGuess()" id="submit-btn">ส่งคำตอบ</button>
-                    <button onclick="giveUp()" id="giveup-btn">🏳️ ยอมแพ้</button>
+                    <button onclick="submitGuess()" id="submit-btn">🚀 ส่งคำตอบ</button>
+                    <button onclick="giveUp()" id="giveup-btn">🏳️ ขอยอมแพ้</button>
                 </div>
             </div>
             <p id="feedback"></p>
         </div>
 
         <div class="card leaderboard">
-            <h3>🏆 อันดับผู้เล่นสูงสุด</h3>
+            <h3>🏆 ทำเนียบผู้เล่นสูงสุด (Top 10)</h3>
             <div class="boards-grid">
                 <div class="board-column">
-                    <h4>⏱️ 1 นาที</h4>
+                    <h4>⚡ โหมด 1 นาที</h4>
                     <table id="board-1m">
                         <thead><tr><th>อันดับ</th><th>ชื่อ</th><th>คะแนน</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
                 <div class="board-column">
-                    <h4>⏱️ 5 นาที</h4>
+                    <h4>🔥 โหมด 5 นาที</h4>
                     <table id="board-5m">
                         <thead><tr><th>อันดับ</th><th>ชื่อ</th><th>คะแนน</th></tr></thead>
                         <tbody></tbody>
                     </table>
                 </div>
                 <div class="board-column">
-                    <h4>♾️ ไม่จำกัด</h4>
+                    <h4>💀 ไม่จำกัดเวลา</h4>
                     <table id="board-unlimited">
                         <thead><tr><th>อันดับ</th><th>ชื่อ</th><th>คะแนน</th></tr></thead>
                         <tbody></tbody>
@@ -71,6 +71,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>

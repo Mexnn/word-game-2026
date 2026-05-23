@@ -5,7 +5,8 @@
 
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background: #eef2f3; 
+    background: #121212; /* สีดำลึก */
+    color: #e0e0e0;
     display: flex; 
     justify-content: center; 
     padding: 15px; 
@@ -18,13 +19,14 @@ body {
 }
 
 .card { 
-    background: white; 
+    background: #1e1e1e; /* สีเทาเข้ม */
     padding: 25px; 
     border-radius: 15px; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+    box-shadow: 0 5px 20px rgba(220, 53, 69, 0.2); /* เงาสะท้อนสีแดงอ่อนๆ */
     margin-bottom: 20px; 
     text-align: center; 
     position: relative; 
+    border: 1px solid #333;
 }
 
 .hidden { display: none !important; }
@@ -34,9 +36,17 @@ input {
     max-width: 400px; 
     padding: 15px; 
     margin: 15px 0; 
-    border: 2px solid #ddd; 
+    background: #2a2a2a;
+    color: #fff;
+    border: 2px solid #444; 
     border-radius: 8px; 
     font-size: 16px; 
+    transition: 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #dc3545; /* สีแดงตอนพิมพ์ */
 }
 
 /* --- หมวดปุ่มเลือกเวลา (เด่นๆ) --- */
@@ -49,19 +59,23 @@ input {
 }
 
 .time-selection button {
-    background: #ff7b00; 
+    background: #dc3545; /* สีแดงหลัก */
+    color: white;
     font-size: 18px;
     font-weight: bold;
     padding: 15px 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    border: 2px solid white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    border: 2px solid #b02a37;
     flex: 1;
     min-width: 150px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .time-selection button:hover {
-    background: #e66a00;
-    transform: scale(1.08); 
+    background: #b02a37;
+    transform: scale(1.05); 
 }
 
 /* --- หมวดปุ่มในเกม --- */
@@ -74,7 +88,7 @@ input {
 }
 
 button { 
-    background: #007bff; 
+    background: #444; 
     color: white; 
     border: none; 
     padding: 12px 20px; 
@@ -86,13 +100,16 @@ button {
     min-width: 130px;
 }
 
-button:hover { background: #0056b3; transform: scale(1.05); }
+button:hover { background: #555; transform: scale(1.05); }
 
-#giveup-btn { background: #dc3545; }
-#giveup-btn:hover { background: #c82333; }
+#submit-btn { background: #dc3545; }
+#submit-btn:hover { background: #c82333; }
+
+#giveup-btn { background: #6c757d; }
+#giveup-btn:hover { background: #5a6268; }
 
 #home-btn { 
-    background: #6c757d; 
+    background: #333; 
     position: absolute; 
     top: 15px; 
     left: 15px; 
@@ -101,7 +118,7 @@ button:hover { background: #0056b3; transform: scale(1.05); }
     min-width: auto;
     flex: none;
 }
-#home-btn:hover { background: #5a6268; }
+#home-btn:hover { background: #444; }
 
 /* --- ส่วนแสดงสถานะ (คะแนน / เวลา) --- */
 .stats { 
@@ -109,13 +126,15 @@ button:hover { background: #0056b3; transform: scale(1.05); }
     justify-content: space-around; 
     font-size: 18px; 
     margin-bottom: 15px; 
-    background: #f8f9fa; 
+    background: #2a2a2a; 
     padding: 12px; 
     border-radius: 8px; 
     flex-wrap: wrap;
     gap: 10px;
+    border: 1px solid #444;
 }
-#time { color: #dc3545; }
+#time { color: #ff4d4d; }
+#score { color: #4CAF50; }
 
 /* --- ตารางคะแนน 3 คอลัมน์ --- */
 .boards-grid { 
@@ -128,51 +147,31 @@ button:hover { background: #0056b3; transform: scale(1.05); }
 .board-column { 
     flex: 1; 
     min-width: 200px; 
-    background: #f8f9fa; 
+    background: #2a2a2a; 
     padding: 15px; 
     border-radius: 8px; 
+    border: 1px solid #444;
 }
 
-.board-column h4 { margin-top: 0; color: #333; font-size: 16px; }
+.board-column h4 { margin-top: 0; color: #ff4d4d; font-size: 16px; }
 
-.leaderboard table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.leaderboard th, td { border-bottom: 1px solid #ddd; padding: 8px 2px; text-align: center; }
+.leaderboard table { width: 100%; border-collapse: collapse; font-size: 14px; color: #ddd; }
+.leaderboard th, td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; }
 
 /* ไฮไลท์อันดับ */
-.rank-1 { background-color: #fff4ce; color: #b8860b; font-weight: bold; font-size: 15px; } 
-.rank-2 { background-color: #f0f0f0; color: #696969; font-weight: bold; font-size: 14.5px; } 
-.rank-3 { background-color: #fce8d8; color: #b87333; font-weight: bold; font-size: 14px; } 
-.rank-normal:hover { background-color: #f1f1f1; }
+.rank-1 { background-color: rgba(220, 53, 69, 0.2); color: #ffeb3b; font-weight: bold; font-size: 15px; } 
+.rank-2 { background-color: rgba(255, 255, 255, 0.05); color: #ccc; font-weight: bold; font-size: 14.5px; } 
+.rank-3 { background-color: rgba(255, 255, 255, 0.02); color: #bcaaa4; font-weight: bold; font-size: 14px; } 
+.rank-normal:hover { background-color: #333; }
 
 #feedback { font-weight: bold; margin-top: 15px; font-size: 18px;}
 
-/* =========================================
-   📱 โหมดสำหรับมือถือ (หน้าจอเล็กกว่า 600px) 
-   ========================================= */
+/* โหมดสำหรับมือถือ */
 @media (max-width: 600px) {
     .card { padding: 15px; }
-    
-    #home-btn { 
-        position: static; 
-        display: block; 
-        width: 100%; 
-        margin-bottom: 15px; 
-    }
-    
-    button { 
-        width: 100%; 
-        margin: 5px 0; 
-    }
-    
-    .button-group, .time-selection { 
-        flex-direction: column; 
-    }
-
-    .boards-grid { 
-        flex-direction: column; 
-    }
-    
-    .board-column { 
-        width: 100%; 
-    }
+    #home-btn { position: static; display: block; width: 100%; margin-bottom: 15px; }
+    button { width: 100%; margin: 5px 0; }
+    .button-group, .time-selection { flex-direction: column; }
+    .boards-grid { flex-direction: column; }
+    .board-column { width: 100%; }
 }
